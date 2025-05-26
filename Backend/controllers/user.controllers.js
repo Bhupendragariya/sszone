@@ -1,5 +1,8 @@
 import User from "../model/user.model.js";
 import jwt from "jsonwebtoken";
+import oauth2Client from "../utils/googleConfi.js";
+import axios from "axios"
+
 
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
@@ -69,6 +72,66 @@ const registerUser = async (req, res) => {
   }
 };
 
+
+
+const googleLogin = async (req,  res ) =>{
+  try {
+    const {code} =req.body;
+    const googleRes = await oauth2Client.getToken(code);
+    oauth2Client.setCredentials(googleRes.tokens);
+
+
+    
+
+
+const userRes = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`);
+    
+    const {fullName, email, username, } = userRes.data;
+    let user = await User.findOne({email});
+
+    if(!user){
+      user = await User.create({
+        username,
+        email,
+        fullName
+      })
+    }
+
+    const{_id} = user;
+     const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
+      user._id
+    );
+
+     return res
+      .status(200)
+      .cookie("accessToken", accessToken)
+      .cookie("refreshToken", refreshToken)
+      .json({
+
+        accessToken,
+        refreshToken,
+
+        success: true,
+        user,
+        message: "User logged in successfully",
+      });
+
+    
+
+  } catch (error) {
+     console.error("user logged error:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Server Error", error: error.message });
+
+    
+  }
+}
+
+
+
+
+
 const loginUser = async (req, res) => {
   // req body --> data
   // username or email
@@ -103,6 +166,7 @@ const loginUser = async (req, res) => {
     const loggedInUser = await User.findById(user._id).select(
       "-password  -refreshToken"
     );
+    
 
     return res
       .status(200)
@@ -124,6 +188,7 @@ const loginUser = async (req, res) => {
       .json({ success: false, message: "Server Error", error: error.message });
   }
 };
+
 
 const logoutUser = async (req, res) => {
   try {
@@ -195,4 +260,4 @@ const refreshAccessToken = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken };
+export { registerUser, loginUser, logoutUser, refreshAccessToken, googleLogin };

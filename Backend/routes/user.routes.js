@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerUser } from "../controllers/user.controllers.js";
+import { googleLogin, registerUser } from "../controllers/user.controllers.js";
 import { loginUser } from "../controllers/user.controllers.js";
 import { logoutUser } from "../controllers/user.controllers.js";
 import { refreshAccessToken } from "../controllers/user.controllers.js";
@@ -12,6 +12,7 @@ const router = Router();
 router.route("/register").post(registerUser)
 
 router.route("/login").post(loginUser)
+router.route("/google-auth").get(googleLogin)
 
 
 
@@ -21,6 +22,7 @@ router.route("/logout").post( verfyJWT, logoutUser);
 
 
 router.route("/refresh-token").post(refreshAccessToken);
+
 
 
 
