@@ -4,6 +4,7 @@ import oauth2Client from "../utils/googleConfi.js";
 import axios from "axios"
 
 
+
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
       const user = await User.findById(userId);
@@ -74,14 +75,16 @@ const registerUser = async (req, res) => {
 
 
 
+
 const googleLogin = async (req,  res ) =>{
   try {
     const {code} =req.body;
-    const googleRes = await oauth2Client.getToken(code);
-    oauth2Client.setCredentials(googleRes.tokens);
 
-
-    
+  if (!code) {
+      return res.status(400).json({ success: false, message: "Code is required" });
+    }
+    const { tokens } = await oauth2Client.getToken(code);
+oauth2Client.setCredentials(tokens);
 
 
 const userRes = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`);

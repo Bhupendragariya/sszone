@@ -1,6 +1,6 @@
 import React from "react";
 import { useGoogleLogin } from "@react-oauth/google";
-import { googleAuth } from "../componant/api";
+import { googleAuth } from "./api";
 
 function GoogleLogin() {
 
