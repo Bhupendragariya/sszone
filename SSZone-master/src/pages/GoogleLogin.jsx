@@ -30,6 +30,8 @@ function GoogleLogin() {
 
   return (
     <div className=" justify-self-center text-lg mt-10 ">
+
+      
       <button
         onClick={GoogleLogin}
         className="text-amber-500 bg-blue-600 px-3 py-2 rounded-3xl  "

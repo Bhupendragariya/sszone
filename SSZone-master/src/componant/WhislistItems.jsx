@@ -26,7 +26,9 @@ function WishlistItems() {
                 className='cursor-pointer absolute top-2 right-4 bg-[#ffffff] rounded-full p-2'>
                 <FaHeart className="text-red-600" />
               </button>
+              
             </div>
+            
 
             <div className="font-[Manrope] pb-2">
               <h3 className="pb-3 font-semibold text-[20px] text-[#292929]">{course.title}</h3>
@@ -52,7 +54,7 @@ function WishlistItems() {
                 <button 
                 // onClick={() => addToCart(course)}
                   className="cursor-pointer py-3 px-6 border-1 hover:bg-[#296AD2] hover:text-white border-[#296AD2] text-[#296AD2] font-medium text-[16px] rounded-[4px]">
-                  Enroll Now
+                  Enroll Now 
                 </button>
               </Link>
             </div>

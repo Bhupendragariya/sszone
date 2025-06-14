@@ -260,4 +260,15 @@ const refreshAccessToken = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken, googleLogin };
+
+
+const getAllCourse = async( req, res)=>{
+  try {
+    
+    
+  } catch (error) {
+    
+  }
+}
+
+export { registerUser, loginUser, logoutUser, refreshAccessToken, googleLogin, getAllCourse };
